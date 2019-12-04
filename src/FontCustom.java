@@ -46,10 +46,10 @@ class FontCustom{
                     e.printStackTrace();
             }
         }
-        if(sFont.equals("roboto-medium")){
+        if(sFont.equals("roboto-bold")){
             
             try {
-                    font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/Roboto-Medium.ttf").openStream());
+                    font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/Roboto-Bold.ttf").openStream());
                     ge.registerFont(font);
             } catch (IOException | FontFormatException e) {
                     e.printStackTrace();

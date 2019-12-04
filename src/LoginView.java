@@ -17,6 +17,31 @@ public class LoginView extends javax.swing.JFrame {
     /**
      * Creates new form LoginFrame
      */
+    private final int WIDTH = 56;
+    private final int HEIGHT = 22;
+    private final float FONT_BASE = 12f;
+    private final float FONT_SECONDARY = 18f;
+//    private final float FONT_TERTIARY = 24f;
+    private final int TEXTFIELD_LIMIT = 24;
+    
+    private final String PRIMARY_COLOR = "#ff7979";
+    private final String PRIMARY_COLOR_HOVER = "#FF9393";
+    private final String PRIMARY_COLOR_PRESSED = "#E66060";
+    
+    private final String SECONDARY_COLOR = "#34495e";
+    
+    
+    private final String USER_ICON = "\uf508";
+    private final String PASSWORD_ICON = "\uf084";
+    private final String MINIMIZE_BUTTON_ICON = "\ue622";
+    private final String CLOSE_BUTTON_ICON = "\ue646";
+    
+    
+    private int locationLoginBtnX;
+    private int locationLoginBtnY;
+    private int locationLoginLabelX;
+    private int locationLoginLabelY;
+    
     public LoginView() {
         initComponents();
 //        Draggable Login
@@ -24,38 +49,46 @@ public class LoginView extends javax.swing.JFrame {
         addMouseListener(frameDragListener);
         addMouseMotionListener(frameDragListener);
        FontCustom fontRobotoLight = new FontCustom("roboto-light");
+       FontCustom fontRobotoBold = new FontCustom("roboto-bold");
 /*      Remodeling of generated UI code
        */
 
 //       User and Password Label
-        jLabel1.setFont(fontRobotoLight.getFont().deriveFont(12f));
-        jLabel2.setFont(fontRobotoLight.getFont().deriveFont(12f));
+        jLabel1.setFont(fontRobotoLight.getFont().deriveFont(FONT_BASE));
+        jLabel2.setFont(fontRobotoLight.getFont().deriveFont(FONT_BASE));
 //        User and Password Textfield
-        jTextField1.setFont(fontRobotoLight.getFont().deriveFont(18f));
-        jTextField1.setDocument(new JTextFieldLimit(24));
-        jTextField2.setFont(fontRobotoLight.getFont().deriveFont(18f));
-        jTextField2.setDocument(new JTextFieldLimit(24));
-        
+        jTextField1.setFont(fontRobotoLight.getFont().deriveFont(FONT_SECONDARY));
+        jTextField1.setDocument(new JTextFieldLimit(TEXTFIELD_LIMIT));
+        jTextField1.setForeground(Color.decode(PRIMARY_COLOR));
+                
+        jPasswordField2.setFont(fontRobotoBold.getFont().deriveFont(26f));
+        jPasswordField2.setDocument(new JTextFieldLimit(TEXTFIELD_LIMIT));
+        jPasswordField2.setForeground(Color.decode(PRIMARY_COLOR));
 /*       FontAwesome    */
         FontCustom fontAwesome = new FontCustom("fa-solid");
         FontCustom fontThemify = new FontCustom("themify");
 //        User icon
-        jLabel3.setText("\uf508");
-        jLabel3.setSize(56, 22);
-        jLabel3.setFont(fontAwesome.getFont().deriveFont(18f));
+        jLabel3.setText("<html><font color='" + PRIMARY_COLOR + "'>" + USER_ICON + "</font></html>");
+        jLabel3.setSize(WIDTH, HEIGHT);
+        jLabel3.setFont(fontAwesome.getFont().deriveFont(FONT_SECONDARY));
         
 //      Password icon
-        jLabel4.setText("\uf084");
-        jLabel4.setSize(56, 22);
-        jLabel4.setFont(fontAwesome.getFont().deriveFont(18f));
+        jLabel4.setText("<html><font color='" + PRIMARY_COLOR + "'>" + PASSWORD_ICON + "</font></html>");
+        jLabel4.setSize(WIDTH, HEIGHT);
+        jLabel4.setFont(fontAwesome.getFont().deriveFont(FONT_SECONDARY));
+        
 //      Minimize button icon
-        jLabel6.setText("\ue622");
-        jLabel6.setSize(56, 22);
-        jLabel6.setFont(fontThemify.getFont().deriveFont(18f));
+        jLabel6.setText(MINIMIZE_BUTTON_ICON);
+        jLabel6.setSize(WIDTH, HEIGHT);
+        jLabel6.setFont(fontThemify.getFont().deriveFont(FONT_BASE));
+        
 //      Close button icon
-        jLabel5.setText("\ue646");
-        jLabel5.setSize(56, 22);
-        jLabel5.setFont(fontThemify.getFont().deriveFont(18f));
+        jLabel5.setText(CLOSE_BUTTON_ICON);
+        jLabel5.setSize(WIDTH, HEIGHT);
+        jLabel5.setFont(fontThemify.getFont().deriveFont(FONT_BASE));
+        
+//        LogIn button Label
+        jLabel7.setFont(fontRobotoBold.getFont().deriveFont(FONT_SECONDARY));
     }
 
     /**
@@ -69,7 +102,9 @@ public class LoginView extends javax.swing.JFrame {
 
         bg = new javax.swing.JPanel();
         windowSetting = new javax.swing.JPanel();
+        minimizeButton = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        closeButton = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
         logoPanel = new javax.swing.JPanel();
@@ -84,11 +119,12 @@ public class LoginView extends javax.swing.JFrame {
         passwordLabelPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         passwordTextFieldPanel = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        jPasswordField2 = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         loginButtonPanel = new javax.swing.JPanel();
         loginButton = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -96,20 +132,73 @@ public class LoginView extends javax.swing.JFrame {
 
         bg.setBackground(new java.awt.Color(52, 73, 94));
 
+        windowSetting.setMinimumSize(new java.awt.Dimension(180, 35));
         windowSetting.setOpaque(false);
+        windowSetting.setPreferredSize(new java.awt.Dimension(180, 35));
+        windowSetting.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        minimizeButton.setBackground(new java.awt.Color(52, 73, 94));
+        minimizeButton.setPreferredSize(new java.awt.Dimension(40, 30));
+        minimizeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeButtonMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                minimizeButtonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                minimizeButtonMouseReleased(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("_");
         jLabel6.setPreferredSize(new java.awt.Dimension(30, 22));
         jLabel6.setRequestFocusEnabled(false);
-        windowSetting.add(jLabel6);
+        minimizeButton.add(jLabel6);
+
+        windowSetting.add(minimizeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 0, 50, 35));
+
+        closeButton.setBackground(new java.awt.Color(52, 73, 94));
+        closeButton.setAutoscrolls(true);
+        closeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        closeButton.setMinimumSize(new java.awt.Dimension(20, 35));
+        closeButton.setName(""); // NOI18N
+        closeButton.setPreferredSize(new java.awt.Dimension(40, 35));
+        closeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeButtonMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                closeButtonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                closeButtonMouseReleased(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("X");
         jLabel5.setPreferredSize(new java.awt.Dimension(30, 22));
-        windowSetting.add(jLabel5);
+        closeButton.add(jLabel5);
+
+        windowSetting.add(closeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 50, 35));
 
         loginPanel.setOpaque(false);
         loginPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -161,6 +250,7 @@ public class LoginView extends javax.swing.JFrame {
             }
         });
         userTextfieldPanel.add(jTextField1);
+        jTextField1.getAccessibleContext().setAccessibleName("");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -190,20 +280,16 @@ public class LoginView extends javax.swing.JFrame {
         passwordPanel.add(passwordLabelPanel);
         passwordLabelPanel.getAccessibleContext().setAccessibleName("");
 
+        passwordTextFieldPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         passwordTextFieldPanel.setOpaque(false);
 
-        jTextField2.setBackground(new java.awt.Color(52, 73, 94));
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField2.setBorder(null);
-        jTextField2.setCaretColor(new java.awt.Color(255, 255, 255));
-        jTextField2.setPreferredSize(new java.awt.Dimension(243, 22));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        passwordTextFieldPanel.add(jTextField2);
+        jPasswordField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPasswordField2.setText("jPasswordField2");
+        jPasswordField2.setBorder(null);
+        jPasswordField2.setCaretColor(new java.awt.Color(255, 255, 255));
+        jPasswordField2.setOpaque(false);
+        jPasswordField2.setPreferredSize(new java.awt.Dimension(243, 22));
+        passwordTextFieldPanel.add(jPasswordField2);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -221,15 +307,43 @@ public class LoginView extends javax.swing.JFrame {
         loginButtonPanel.setOpaque(false);
         loginButtonPanel.setPreferredSize(new java.awt.Dimension(347, 100));
 
+        loginButton.setBackground(new java.awt.Color(255, 121, 121));
+        loginButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                loginButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                loginButtonMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                loginButtonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                loginButtonMouseReleased(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("LOGIN");
+
         javax.swing.GroupLayout loginButtonLayout = new javax.swing.GroupLayout(loginButton);
         loginButton.setLayout(loginButtonLayout);
         loginButtonLayout.setHorizontalGroup(
             loginButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 310, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginButtonLayout.createSequentialGroup()
+                .addContainerGap(122, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(122, 122, 122))
         );
         loginButtonLayout.setVerticalGroup(
             loginButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout loginButtonPanelLayout = new javax.swing.GroupLayout(loginButtonPanel);
@@ -244,9 +358,9 @@ public class LoginView extends javax.swing.JFrame {
         loginButtonPanelLayout.setVerticalGroup(
             loginButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginButtonPanelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(25, 25, 25))
         );
 
         loginPanel.add(loginButtonPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 370, -1));
@@ -260,16 +374,14 @@ public class LoginView extends javax.swing.JFrame {
                 .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(65, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(windowSetting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(windowSetting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(windowSetting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                .addComponent(windowSetting, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
                 .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(70, Short.MAX_VALUE))
         );
@@ -278,9 +390,7 @@ public class LoginView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,9 +407,89 @@ public class LoginView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void loginButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+        locationLoginBtnX = loginButton.getX();
+        locationLoginBtnY = loginButton.getY();
+        locationLoginLabelX = jLabel7.getX();
+        locationLoginLabelY = jLabel7.getY();
+
+        loginButton.setBackground(Color.decode(PRIMARY_COLOR_HOVER));
+        loginButton.setSize(314,64);
+        loginButton.setLocation(locationLoginBtnX - 2, locationLoginBtnY - 1);
+        jLabel7.setLocation(locationLoginLabelX + 2, locationLoginLabelY + 1);
+        
+    }//GEN-LAST:event_loginButtonMouseEntered
+
+    private void loginButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseExited
+        // TODO add your handling code here:
+       loginButton.setBackground(Color.decode(PRIMARY_COLOR)); 
+       loginButton.setSize(310,62);
+       loginButton.setLocation(locationLoginBtnX, locationLoginBtnY);
+       jLabel7.setLocation(locationLoginLabelX, locationLoginLabelY);
+    }//GEN-LAST:event_loginButtonMouseExited
+
+    private void loginButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMousePressed
+        // TODO add your handling code here:
+        loginButton.setBackground(Color.decode(PRIMARY_COLOR_PRESSED)); 
+    }//GEN-LAST:event_loginButtonMousePressed
+
+    private void loginButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseReleased
+            // TODO add your handling code here:
+            loginButton.setBackground(Color.decode(PRIMARY_COLOR)); 
+    }//GEN-LAST:event_loginButtonMouseReleased
+
+    private void closeButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeButtonMouseEntered
+        // TODO add your handling code here:
+        closeButton.setBackground(Color.red); 
+        
+    }//GEN-LAST:event_closeButtonMouseEntered
+
+    private void closeButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeButtonMouseExited
+        // TODO add your handling code here:
+        closeButton.setBackground(Color.decode(SECONDARY_COLOR)); 
+    }//GEN-LAST:event_closeButtonMouseExited
+
+    private void closeButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeButtonMousePressed
+        // TODO add your handling code here:
+        closeButton.setBackground(Color.decode("#FF6666"));
+    }//GEN-LAST:event_closeButtonMousePressed
+
+    private void closeButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeButtonMouseReleased
+        // TODO add your handling code here:
+        closeButton.setBackground(Color.red); 
+    }//GEN-LAST:event_closeButtonMouseReleased
+
+    private void minimizeButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeButtonMouseEntered
+        // TODO add your handling code here:
+        minimizeButton.setBackground(Color.decode("#677C91"));
+    }//GEN-LAST:event_minimizeButtonMouseEntered
+
+    private void minimizeButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeButtonMouseExited
+        // TODO add your handling code here:
+        
+        minimizeButton.setBackground(Color.decode(SECONDARY_COLOR));
+    }//GEN-LAST:event_minimizeButtonMouseExited
+
+    private void minimizeButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeButtonMousePressed
+        // TODO add your handling code here:
+        minimizeButton.setBackground(Color.decode("#9AAFC4"));
+    }//GEN-LAST:event_minimizeButtonMousePressed
+
+    private void minimizeButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeButtonMouseReleased
+        // TODO add your handling code here:
+         minimizeButton.setBackground(Color.decode(SECONDARY_COLOR));
+    }//GEN-LAST:event_minimizeButtonMouseReleased
+
+    private void closeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeButtonMouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_closeButtonMouseClicked
+
+    private void minimizeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeButtonMouseClicked
+        // TODO add your handling code here:
+         setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_minimizeButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -340,20 +530,23 @@ public class LoginView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
+    private javax.swing.JPanel closeButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel loginButton;
     private javax.swing.JPanel loginButtonPanel;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel logoPanel;
+    private javax.swing.JPanel minimizeButton;
     private javax.swing.JPanel passwordLabelPanel;
     private javax.swing.JPanel passwordPanel;
     private javax.swing.JPanel passwordTextFieldPanel;
